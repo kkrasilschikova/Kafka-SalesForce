@@ -5,9 +5,9 @@ object EntryPoint {
 
   def main(args: Array[String]): Unit = {
     val parser=new scopt.OptionParser[Config]("KafkaSalesForce") {
-      opt[String]('s', "sourceTopic").required().valueName("<source-kafka-topic>").
+      opt[String]("sourceTopic").required().valueName("<source-kafka-topic>").
         action((x,c) => c.copy(sourceTopic=x))
-      opt[String]('t', "targetTopic").required().valueName("<target-kafka-topic>").
+      opt[String]("targetTopic").required().valueName("<target-kafka-topic>").
         action((x,c) => c.copy(targetTopic=x))
     }
     parser.parse(args, Config()) match {
@@ -25,7 +25,7 @@ object EntryPoint {
 
         for (value <- sfResults) kafka.producerUpdate(args(1), "key", value)
 
-      case None => // arguments are bad, error message will have been displayed
+      case None => // arguments are bad, error message will be displayed
     }
   }
 }
