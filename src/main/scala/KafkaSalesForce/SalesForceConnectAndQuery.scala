@@ -38,23 +38,27 @@ class SalesForceConnectAndQuery {
     } yield connection
   }
 
-  @tailrec
-  final def getAccountName(l: List[String], acc: List[java.io.Serializable]): List[java.io.Serializable]={
-    l match{
-      case Nil=>acc
-      case head::tail=>
-        val xmlResult=connect.get
-          .query(s"SELECT Account.Name, CaseNumber FROM Case WHERE CaseNumber='$head'")
-        val caseAccount=for (record <- xmlResult.getRecords) yield
-          (record.getField("CaseNumber"), record.getChild("Account").getField("Name"))
-        getAccountName(tail, acc:::caseAccount.toList)
+  def accountNameFromSF(l: List[String]): List[String] = {
+    @tailrec
+    def getAccountAndCase(l: List[String], acc: List[java.io.Serializable]): List[java.io.Serializable] = {
+      l match {
+        case Nil => acc
+        case head :: tail =>
+          val xmlResult = connect.get
+            .query(s"SELECT Account.Name, CaseNumber FROM Case WHERE CaseNumber='$head'")
+          val caseAccount = for (record <- xmlResult.getRecords) yield
+            (record.getField("CaseNumber"), record.getChild("Account").getField("Name"))
+          getAccountAndCase(tail, acc ::: caseAccount.toList)
+      }
     }
-  }
 
-  def toListOfString(l: List[java.io.Serializable]): List[String]= {
-    for (elem <- l) yield elem match {
-      case (a, b) => s"$a;$b"
+    def toListOfString(l: List[java.io.Serializable]): List[String] = {
+      for (elem <- l) yield elem match {
+        case (caseNumber, accountName) => s"$caseNumber;$accountName"
+      }
     }
+
+    toListOfString(getAccountAndCase(l, List()))
   }
 }
 

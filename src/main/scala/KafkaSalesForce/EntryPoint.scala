@@ -10,8 +10,7 @@ object EntryPoint {
 
     val sf=new SalesForceConnectAndQuery
     sf.connect
-    val sfOut: List[java.io.Serializable]=sf.getAccountName(cases, List())
-    val sfResults: List[String]=sf.toListOfString(sfOut)
+    val sfResults: List[String]=sf.accountNameFromSF(cases)
 
     for (value<-sfResults) kafka.producerUpdate(args(1), "key", value)
   }
