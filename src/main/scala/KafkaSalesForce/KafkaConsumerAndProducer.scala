@@ -3,10 +3,11 @@ package KafkaSalesForce
 class KafkaConsumerAndProducer {
 
   import cakesolutions.kafka.KafkaConsumer.Conf
-  import scala.collection.JavaConversions._
   import cakesolutions.kafka.{KafkaConsumer, KafkaProducer, KafkaProducerRecord}
   import org.apache.kafka.clients.consumer.{ConsumerRecords, OffsetResetStrategy}
   import org.apache.kafka.common.serialization.{StringDeserializer, StringSerializer}
+
+  import scala.collection.JavaConversions._
 
   val consumer = KafkaConsumer(
     Conf(new StringDeserializer(), new StringDeserializer(),
@@ -36,7 +37,7 @@ class KafkaConsumerAndProducer {
       bufferMemory = 33554432)
   )
 
-  def producerUpdate(topic: String, key: String, value: String): Unit={
+  def producerUpdate(topic: String, key: String, value: String): Unit = {
     producer.send(KafkaProducerRecord(topic, key, value))
   }
 
