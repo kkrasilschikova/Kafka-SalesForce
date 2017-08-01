@@ -2,8 +2,9 @@ package KafkaSalesForce
 
 import com.sforce.soap.partner.PartnerConnection
 import com.sforce.ws.ConnectorConfig
-import scala.util.{Failure, Success, Try}
+
 import scala.annotation.tailrec
+import scala.util.{Failure, Success, Try}
 
 class SalesForceConnectAndQuery {
   def connect: Try[PartnerConnection] = {
@@ -60,5 +61,6 @@ class SalesForceConnectAndQuery {
 
     toListOfString(getAccountAndCase(l, List()))
   }
+
 }
 
