@@ -14,8 +14,8 @@ resolvers += Resolver.bintrayRepo("cakesolutions", "maven")
 
 libraryDependencies += "net.cakesolutions" %% "scala-kafka-client" % "0.11.0.0"
 libraryDependencies += "com.force.api" % "force-partner-api" % "40.0.0"
-libraryDependencies += "org.slf4j" % "slf4j-simple" % "1.7.25" % "test"
 libraryDependencies += "com.github.scopt" %% "scopt" % "3.6.0"
+libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.3" % Runtime
 
 val defaultMergeStrategy: String => MergeStrategy = {
   case x if Assembly.isConfigFile(x) =>
