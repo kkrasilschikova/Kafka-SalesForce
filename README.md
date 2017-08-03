@@ -14,4 +14,5 @@ libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.3" % Runtime
 #### In order to run the program
 
 - run `sbt assembly`
-- java -jar Kafka-SalesForce-assembly-1.0.jar --kafkaIP:port localhost:9092 --sourceTopic sourceTopicName --targetTopic targetTopicName
+- run jar with parameters  
+`java -jar Kafka-SalesForce-assembly-1.0.jar --kafkaIpPort localhost:9092 --sourceTopic sourceTopicName --targetTopic targetTopicName`
