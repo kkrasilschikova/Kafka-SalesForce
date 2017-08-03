@@ -24,6 +24,9 @@ object EntryPoint {
 
         for (value <- sfResults) kafka.producerUpdate(config.targetTopic, "AccountLookup", value)
         //kafka.consumerResults(config.targetTopic)//just to check target topic
+
+        kafka.consumerClose
+        kafka.producerClose
       case None => // arguments are bad, error message will be displayed
     }
   }
