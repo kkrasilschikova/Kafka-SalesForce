@@ -1,6 +1,6 @@
 package KafkaSalesForce
 
-class KafkaConsumerAndProducer {
+class KafkaConsumerAndProducer(bootstrapServers: String) {
 
   import cakesolutions.kafka.KafkaConsumer.Conf
   import cakesolutions.kafka.{KafkaConsumer, KafkaProducer, KafkaProducerRecord}
@@ -11,7 +11,7 @@ class KafkaConsumerAndProducer {
 
   val consumer = KafkaConsumer(
     Conf(new StringDeserializer(), new StringDeserializer(),
-      bootstrapServers = "localhost:9092",
+      bootstrapServers = bootstrapServers,
       groupId = "group",
       enableAutoCommit = true,
       autoCommitInterval = 1000,
@@ -29,7 +29,8 @@ class KafkaConsumerAndProducer {
   }
 
   val producer = KafkaProducer(
-    KafkaProducer.Conf(new StringSerializer(), new StringSerializer(), bootstrapServers = "localhost:9092",
+    KafkaProducer.Conf(new StringSerializer(), new StringSerializer(),
+      bootstrapServers = bootstrapServers,
       acks = "all",
       retries = 0,
       batchSize = 16834,
@@ -42,3 +43,8 @@ class KafkaConsumerAndProducer {
   }
 
 }
+
+object KafkaConsumerAndProducer {
+  def apply(bootstrapServers: String): KafkaConsumerAndProducer = new KafkaConsumerAndProducer(bootstrapServers=bootstrapServers)
+}
+
