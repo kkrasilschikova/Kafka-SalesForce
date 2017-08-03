@@ -27,8 +27,6 @@ class KafkaConsumerAndProducer(bootstrapServers: String) {
     (for (record <- records) yield record.value()).toList
   }
 
-  def consumerClose=consumer.close()
-
   val producer = KafkaProducer(
     KafkaProducer.Conf(new StringSerializer(), new StringSerializer(),
       bootstrapServers = bootstrapServers,
@@ -42,8 +40,6 @@ class KafkaConsumerAndProducer(bootstrapServers: String) {
   def producerUpdate(topic: String, key: String, value: String): Unit = {
     producer.send(KafkaProducerRecord(topic, key, value))
   }
-
-  def producerClose=producer.close()
 
 }
 
