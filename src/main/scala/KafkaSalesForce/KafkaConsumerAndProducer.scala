@@ -24,8 +24,7 @@ class KafkaConsumerAndProducer(bootstrapServers: String) {
   def consumerResults(topic: String): List[String] = {
     consumer.subscribe(Seq(topic))
     val records: ConsumerRecords[String, String] = consumer.poll(100)
-    val results: List[String] = (for (record <- records) yield record.value()).toList
-    results
+    (for (record <- records) yield record.value()).toList
   }
 
   val producer = KafkaProducer(
