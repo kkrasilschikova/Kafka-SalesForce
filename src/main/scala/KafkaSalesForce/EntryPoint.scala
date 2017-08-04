@@ -1,5 +1,7 @@
 package KafkaSalesForce
 
+import play.api.libs.json.JsObject
+
 object EntryPoint {
   case class Config(kafkaIpPort: String="", sourceTopic: String="", targetTopic: String="")
 
@@ -20,10 +22,9 @@ object EntryPoint {
 
         val sf = new SalesForceConnectAndQuery
         sf.connect
-        val sfResults: List[String] = sf.accountNameFromSF(cases)
+        val sfResults: List[JsObject] = sf.accountNameFromSF(cases)
 
         for (value <- sfResults) kafka.producerUpdate(config.targetTopic, "AccountLookup", value)
-
       case None => // arguments are bad, error message will be displayed
     }
   }

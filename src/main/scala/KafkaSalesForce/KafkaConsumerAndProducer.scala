@@ -6,6 +6,7 @@ class KafkaConsumerAndProducer(bootstrapServers: String) {
   import cakesolutions.kafka.{KafkaConsumer, KafkaProducer, KafkaProducerRecord}
   import org.apache.kafka.clients.consumer.{ConsumerRecords, OffsetResetStrategy}
   import org.apache.kafka.common.serialization.{StringDeserializer, StringSerializer}
+  import play.api.libs.json.JsObject
 
   import scala.collection.JavaConversions._
 
@@ -37,8 +38,8 @@ class KafkaConsumerAndProducer(bootstrapServers: String) {
       bufferMemory = 33554432)
   )
 
-  def producerUpdate(topic: String, key: String, value: String): Unit = {
-    producer.send(KafkaProducerRecord(topic, key, value))
+  def producerUpdate(topic: String, key: String, value: JsObject): Unit = {
+    producer.send(KafkaProducerRecord(topic, key, value.toString))
   }
 
 }

@@ -2,6 +2,7 @@ package KafkaSalesForce
 
 import com.sforce.soap.partner.PartnerConnection
 import com.sforce.ws.ConnectorConfig
+import play.api.libs.json.{JsObject, Json}
 
 import scala.annotation.tailrec
 import scala.util.{Failure, Success, Try}
@@ -39,7 +40,7 @@ class SalesForceConnectAndQuery {
     } yield connection
   }
 
-  def accountNameFromSF(l: List[String]): List[String] = {
+  def accountNameFromSF(l: List[String]): List[JsObject] = {
     @tailrec
     def getAccountAndCase(l: List[String], acc: List[java.io.Serializable]): List[java.io.Serializable] = {
       l match {
@@ -59,7 +60,13 @@ class SalesForceConnectAndQuery {
       }
     }
 
-    toListOfString(getAccountAndCase(l, List()))
+    def toListOfJson(l: List[java.io.Serializable]): List[JsObject]= {
+      for (el <- l) yield el match {
+        case (a, b) => Json.obj("caseNumber" -> s"$a", "accountName" -> s"$b")
+      }
+    }
+
+    toListOfJson(getAccountAndCase(l, List()))
   }
 
 }
