@@ -25,6 +25,8 @@ object EntryPoint {
         val sfResults: List[JsObject] = sf.accountNameFromSF(cases)
 
         for (value <- sfResults) kafka.producerUpdate(config.targetTopic, "AccountLookup", value)
+
+        //kafka.consumerResults(config.targetTopic)
       case None => // arguments are bad, error message will be displayed
     }
   }

@@ -29,7 +29,8 @@ class KafkaConsumerAndProducer(bootstrapServers: String) {
   }
 
   val producer = KafkaProducer(
-    KafkaProducer.Conf(new StringSerializer(), new StringSerializer(),
+    KafkaProducer.Conf(keySerializer=new StringSerializer(),
+      valueSerializer=new JsonSerializer(),
       bootstrapServers = bootstrapServers,
       acks = "all",
       retries = 0,
@@ -39,7 +40,7 @@ class KafkaConsumerAndProducer(bootstrapServers: String) {
   )
 
   def producerUpdate(topic: String, key: String, value: JsObject): Unit = {
-    producer.send(KafkaProducerRecord(topic, key, value.toString))
+    producer.send(KafkaProducerRecord(topic, key, value))
   }
 
 }
