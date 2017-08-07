@@ -3,10 +3,11 @@ package KafkaSalesForce
 import java.util
 
 import org.apache.kafka.common.serialization.Serializer
-import play.api.libs.json.JsValue
+import play.api.libs.json._
+
 class JsonSerializer extends Serializer[JsValue] {
   override def serialize(topic: String, data: JsValue): Array[Byte] =
-    data.toString().getBytes("utf-8")
+    Json.stringify(data).getBytes("utf-8")
 
   override def configure(configs: util.Map[String, _], isKey: Boolean): Unit = {}
 
